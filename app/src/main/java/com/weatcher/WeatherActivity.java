@@ -1,152 +1,10 @@
-//package com.weatcher;
-//
-//import androidx.appcompat.app.AppCompatActivity;
-//import okhttp3.Call;
-//import okhttp3.Callback;
-//import okhttp3.Response;
-//
-//import android.content.SharedPreferences;
-//import android.os.Bundle;
-//import android.preference.PreferenceManager;
-//import android.util.Log;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.widget.LinearLayout;
-//import android.widget.ScrollView;
-//import android.widget.TextView;
-//import android.widget.Toast;
-//
-//import com.weatcher.gson.Forecast;
-//import com.weatcher.gson.Weather;
-//import com.weatcher.util.HttpUtil;
-//import com.weatcher.util.Utility;
-//
-//import java.io.IOException;
-//
-//public class WeatherActivity extends AppCompatActivity {
-//    private ScrollView weatherLayout;
-//    private TextView titleCity;
-//    private TextView titleUpdateTime;
-//    private TextView degreeText;
-//    private TextView weatherInfoText;
-//    private LinearLayout forecastLayout;
-//    private TextView aqiText;
-//    private TextView pm25Text;
-//    private TextView comfortText;
-//    private TextView carWashText;
-//    private TextView sportText;
-//    private String mWeatherId;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_weather);
-//        weatherLayout = findViewById(R.id.weather_layout);
-//        titleCity = findViewById(R.id.title_city);
-//        titleUpdateTime = findViewById(R.id.title_update_time);
-//        degreeText = findViewById(R.id.degree_text);
-//        weatherInfoText = findViewById(R.id.weather_info_text);
-//        forecastLayout = findViewById(R.id.forecast_layout);
-//        aqiText = findViewById(R.id.aqi_text);
-//        pm25Text = findViewById(R.id.pm25_text);
-//        comfortText = findViewById(R.id.comfort_text);
-//        carWashText = findViewById(R.id.car_wash_text);
-//        sportText = findViewById(R.id.sport_text);
-//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-//        String weatherString = prefs.getString("weather", null);
-//        if (weatherString != null) {
-//            Weather weather = Utility.handleWeatherResponse(weatherString);
-//            showWeatherInfo(weather);
-//        } else {
-////            mWeatherId = getIntent().getStringExtra("CN101190401");
-//            mWeatherId = "CN101190401";
-//            weatherLayout.setVisibility(View.INVISIBLE);
-//            requestWeather(mWeatherId);
-//        }
-//    }
-//
-//    private void requestWeather(final String weatherId) {
-//        String weatherUrl = "http://guolin.tech/api/weather?cityid=" + weatherId + "&key=bc0418b57b2d4918819d3974ac1285d9";
-//        HttpUtil.SendOkhttpRequest(weatherUrl, new Callback() {
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                final String responseText = response.body().string();
-//                final Weather weather = Utility.handleWeatherResponse(responseText);
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        if (weather != null && "ok".equals(weather.status)) {
-//                            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
-//                            editor.putString("weather", responseText);
-//                            editor.apply();
-////                            mWeatherId = weather.mBasic.weatherId;
-//                            Log.d("数值：", mWeatherId);
-//                            showWeatherInfo(weather);
-//                        } else {
-//                            Toast.makeText(WeatherActivity.this, "获取天气信息失败", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                e.printStackTrace();
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(WeatherActivity.this, "获取天气信息失败", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//        });
-//    }
-//
-//    private void showWeatherInfo(Weather weather) {
-//        String cityName = weather.mBasic.cityName;
-//        String updateTime = weather.mBasic.mUpdate.updateTime.split(" ")[1];
-//        String degree = weather.mNow.temperature + "℃";
-//        String weatherInfo = weather.mNow.mMore.info;
-//        titleCity.setText(cityName);
-//        titleUpdateTime.setText(updateTime);
-//        degreeText.setText(degree);
-//        weatherInfoText.setText(weatherInfo);
-//        forecastLayout.removeAllViews();
-//        for (Forecast forecast : weather.mForecasts) {
-//            View view = LayoutInflater.from(this).inflate(R.layout.forecast_item, forecastLayout, false);
-//            TextView dateText = (TextView) view.findViewById(R.id.date_text);
-//            TextView infoText = (TextView) view.findViewById(R.id.info_text);
-//            TextView maxText = (TextView) view.findViewById(R.id.max_text);
-//            TextView minText = (TextView) view.findViewById(R.id.min_text);
-//            dateText.setText(forecast.date);
-//            infoText.setText(forecast.mMore.info);
-//            maxText.setText(forecast.mTemperature.max);
-//            minText.setText(forecast.mTemperature.min);
-//            forecastLayout.addView(view);
-//        }
-//        if (weather.mAQI != null) {
-//            aqiText.setText(weather.mAQI.mAQICity.aqi);
-//            pm25Text.setText(weather.mAQI.mAQICity.pm25);
-//        }
-//        String comfort = "舒适度：" + weather.mSuggestion.mComfort.info;
-//        String carWash = "洗车指数：" + weather.mSuggestion.mCarWash.info;
-//        String sport = "运动建议：" + weather.mSuggestion.mSport.info;
-//        comfortText.setText(comfort);
-//        carWashText.setText(carWash);
-//        sportText.setText(sport);
-//        weatherLayout.setVisibility(View.VISIBLE);
-//    }
-//}
 package com.weatcher;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -161,7 +19,6 @@ import com.weatcher.gson.Forecast;
 import com.weatcher.gson.Weather;
 import com.weatcher.util.HttpUtil;
 import com.weatcher.util.Utility;
-
 
 import java.io.IOException;
 
@@ -245,8 +102,6 @@ public class WeatherActivity extends AppCompatActivity {
                 mDrawerLayout.openDrawer(GravityCompat.START);
             }
         });
-
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString = prefs.getString("weather", null);
         if (weatherString != null) {
