@@ -37,16 +37,16 @@ public class ChooseAreaFragment extends Fragment {
     private List<String> dataList = new ArrayList<>();
 
     /**
-     * 省列表
+     * 省的列表
      */
     private List<Province> mProvinceList;
 
     /**
-     * 市列表
+     * 市的列表
      */
     private List<City> mCityList;
     /**
-     * 县列表
+     * 县的列表
      */
     private List<County> mCountyList;
 
