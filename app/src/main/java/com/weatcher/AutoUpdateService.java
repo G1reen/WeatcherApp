@@ -22,6 +22,7 @@ import okhttp3.Response;
 
 /**
  * 后台自动更新天气
+ * 2020-07-13
  */
 public class AutoUpdateService extends Service {
     private static final String TAG = "AutoUpdateService";
@@ -36,8 +37,8 @@ public class AutoUpdateService extends Service {
         updateWeather();
         updateBingPic();
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        /**当APP挂在后台的时候 每5秒钟自动刷新一次天气数据**/
-        int anHour = 0 * 5 * 5 * 1000;
+//        /**当APP挂在后台的时候 每5秒钟自动刷新一次天气数据**/
+        int anHour = 1 * 5 * 5 * 1000;
         long triggerAtTime = SystemClock.elapsedRealtime() + anHour;
         Intent i = new Intent(this, AutoUpdateService.class);
         PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
